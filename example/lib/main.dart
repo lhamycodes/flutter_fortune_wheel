@@ -23,7 +23,7 @@ class ExamplePage extends StatefulWidget {
 }
 
 class _ExamplePageState extends State<ExamplePage> {
-  int selected = 0;
+  int selected = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +34,6 @@ class _ExamplePageState extends State<ExamplePage> {
       'Han Solo',
       'Luke Skywalker',
       'Darth Vader',
-      'Yoda',
-      'Ahsoka Tano',
     ];
 
     return Scaffold(
