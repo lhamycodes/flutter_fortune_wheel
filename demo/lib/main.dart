@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fortune_wheel_demo/router.gr.dart';
 import 'package:fortune_wheel_demo/theme.dart';
+import 'pages/home.dart';
 import 'util/configure_non_web.dart'
     if (dart.library.html) 'util/configure_web.dart';
 
@@ -15,19 +15,16 @@ class DemoApp extends StatefulWidget {
 }
 
 class _DemoAppState extends State<DemoApp> {
-  final _appRouter = AppRouter();
-
   @override
   Widget build(BuildContext context) {
     return ThemeModeProvider(
       builder: (context, themeMode) {
-        return MaterialApp.router(
+        return MaterialApp(
           title: 'Fortune Wheel Demo',
           theme: lightTheme,
           darkTheme: darkTheme,
           themeMode: themeMode,
-          routerDelegate: _appRouter.delegate(),
-          routeInformationParser: _appRouter.defaultRouteParser(),
+          home: HomePage(),
         );
       },
     );

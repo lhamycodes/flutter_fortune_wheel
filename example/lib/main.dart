@@ -44,15 +44,16 @@ class _ExamplePageState extends State<ExamplePage> {
       ),
       body: GestureDetector(
         onTap: () {
-          setState(() {
-            selected = Random().nextInt(items.length);
-          });
+          // setState(() {
+          //   selected = Random().nextInt(items.length);
+          // });
         },
         child: Column(
           children: [
             Expanded(
               child: FortuneWheel(
                 selected: selected,
+                animateFirst: false,
                 items: [
                   for (var it in items) FortuneItem(child: Text(it)),
                 ],

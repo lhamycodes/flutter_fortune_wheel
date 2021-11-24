@@ -80,10 +80,10 @@ class _CircleSliceLayout extends StatelessWidget {
               LayoutId(
                 id: _SliceSlot.Child,
                 child: Transform.rotate(
-                  angle: slice.angle / 2,
+                  angle: Math.pi / 1.6,
                   child: child,
                 ),
-              ),
+              )
           ],
         ),
       ),
