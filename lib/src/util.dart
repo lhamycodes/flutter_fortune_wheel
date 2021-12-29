@@ -17,6 +17,10 @@ double getSmallerSide(BoxConstraints constraints) {
   return Math.min(constraints.maxWidth, constraints.maxHeight);
 }
 
+double getLargerSide(BoxConstraints constraints) {
+  return Math.max(constraints.maxWidth, constraints.maxHeight);
+}
+
 Offset getCenteredMargins(BoxConstraints constraints) {
   final smallerSide = getSmallerSide(constraints);
   return Offset(

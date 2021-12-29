@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 
@@ -23,10 +21,10 @@ class ExamplePage extends StatefulWidget {
 }
 
 class _ExamplePageState extends State<ExamplePage> {
-  int selected = 3;
-
   @override
   Widget build(BuildContext context) {
+    int selected = 4;
+
     final items = <String>[
       'Grogu',
       'Mace Windu',
@@ -40,25 +38,24 @@ class _ExamplePageState extends State<ExamplePage> {
       appBar: AppBar(
         title: Text('Flutter Fortune Wheel'),
       ),
-      body: GestureDetector(
-        onTap: () {
-          // setState(() {
-          //   selected = Random().nextInt(items.length);
-          // });
-        },
-        child: Column(
-          children: [
-            Expanded(
-              child: FortuneWheel(
-                selected: selected,
-                animateFirst: false,
-                items: [
-                  for (var it in items) FortuneItem(child: Text(it)),
-                ],
-              ),
+      body: Column(
+        children: [
+          Expanded(
+            child: FortuneWheel(
+              selected: selected,
+              animateFirst: false,
+              items: [
+                for (var it in items)
+                  FortuneItem(
+                    child: Text(it),
+                    onTap: () {
+                      print("Tapped IT $it");
+                    },
+                  ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
