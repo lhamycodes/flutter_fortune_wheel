@@ -21,19 +21,19 @@ class ExamplePage extends StatefulWidget {
 }
 
 class _ExamplePageState extends State<ExamplePage> {
+  int selected = 4;
+
+  final items = <String>[
+    'Grogu',
+    'Mace Windu',
+    'Obi-Wan Kenobi',
+    'Han Solo',
+    'Luke Skywalker',
+    'Darth Vader',
+  ];
+
   @override
   Widget build(BuildContext context) {
-    int selected = 4;
-
-    final items = <String>[
-      'Grogu',
-      'Mace Windu',
-      'Obi-Wan Kenobi',
-      'Han Solo',
-      'Luke Skywalker',
-      'Darth Vader',
-    ];
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Flutter Fortune Wheel'),
@@ -44,14 +44,29 @@ class _ExamplePageState extends State<ExamplePage> {
             child: FortuneWheel(
               selected: selected,
               animateFirst: false,
+              rotationCount: 0,
+              onFling: () {
+                setState(() {
+                  if (selected < items.length - 1) {
+                    selected += 1;
+                  } else {
+                    selected = 0;
+                  }
+                });
+              },
               items: [
-                for (var it in items)
+                for (var i = 0; i < items.length; i++) ...[
                   FortuneItem(
-                    child: Text(it),
+                    child: Text(items[i]),
                     onTap: () {
-                      print("Tapped IT $it");
+                      setState(() {
+                        selected = i;
+                      });
+
+                      print("Tapped IT ${items[i]}");
                     },
                   ),
+                ],
               ],
             ),
           ),
