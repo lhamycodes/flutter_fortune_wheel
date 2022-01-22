@@ -21,7 +21,7 @@ class ExamplePage extends StatefulWidget {
 }
 
 class _ExamplePageState extends State<ExamplePage> {
-  int selected = 4;
+  int selected = 0;
 
   final items = <String>[
     'Grogu',
@@ -45,14 +45,27 @@ class _ExamplePageState extends State<ExamplePage> {
               selected: selected,
               animateFirst: false,
               rotationCount: 0,
-              onFling: () {
-                setState(() {
-                  if (selected < items.length - 1) {
-                    selected += 1;
-                  } else {
-                    selected = 0;
-                  }
-                });
+              onFling: (val) {
+                if (val) {
+                  // was flung right (i.e from left to right)
+                  setState(() {
+                    if (selected > 0 && selected <= items.length - 1) {
+                      selected -= 1;
+                    } else {
+                      selected = items.length - 1;
+                    }
+                  });
+                } else {
+                  // was flung left (i.e from right to left)
+                  setState(() {
+                    if (selected < items.length - 1) {
+                      selected += 1;
+                    } else {
+                      selected = 0;
+                    }
+                  });
+                }
+                print(selected);
               },
               items: [
                 for (var i = 0; i < items.length; i++) ...[

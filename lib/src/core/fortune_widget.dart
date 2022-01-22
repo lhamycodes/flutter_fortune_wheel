@@ -94,5 +94,5 @@ abstract class FortuneWidget implements Widget {
   /// {@template flutter_fortune_wheel.FortuneWidget.onFling}
   /// Called when a fling gesture is detected by the active [physics].
   /// {@endtemplate}
-  VoidCallback? get onFling;
+  Function(bool)? get onFling;
 }

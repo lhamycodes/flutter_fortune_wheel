@@ -32,7 +32,7 @@ class FortuneBarPage extends HookWidget {
               items: [
                 for (var it in fortuneValues) FortuneItem(child: Text(it))
               ],
-              onFling: handleRoll,
+              onFling: (val) => handleRoll,
               onAnimationStart: () {
                 isAnimating.value = true;
               },

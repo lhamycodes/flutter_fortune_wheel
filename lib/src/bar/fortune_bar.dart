@@ -57,7 +57,7 @@ class FortuneBar extends HookWidget implements FortuneWidget {
   final PanPhysics physics;
 
   /// {@macro flutter_fortune_wheel.FortuneWidget.onFling}
-  final VoidCallback? onFling;
+  final Function(bool)? onFling;
 
   /// If this value is true, this widget expands to the screen width and ignores
   /// width constraints imposed by parent widgets.
@@ -129,7 +129,7 @@ class FortuneBar extends HookWidget implements FortuneWidget {
     return PanAwareBuilder(
         behavior: HitTestBehavior.translucent,
         physics: physics,
-        onFling: onFling,
+        onFling: (val) => onFling,
         builder: (context, panState) {
           return LayoutBuilder(builder: (context, constraints) {
             final size = Size(

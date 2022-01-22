@@ -39,7 +39,7 @@ class FortuneWheelPage extends HookWidget {
               selected: selected.value,
               onAnimationStart: () => isAnimating.value = true,
               onAnimationEnd: () => isAnimating.value = false,
-              onFling: handleRoll,
+              onFling: (val) => handleRoll,
               indicators: [
                 FortuneIndicator(
                   alignment: alignment.value,

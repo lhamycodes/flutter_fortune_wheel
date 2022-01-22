@@ -15,10 +15,14 @@ class PanState {
   /// Is set to true if panning resulted in a fling gesture.
   final bool wasFlung;
 
+  /// Is set to true if panning resulted in a fling gesture to the right.
+  final bool isFlungRight;
+
   const PanState({
     this.distance = 0.0,
     this.isPanning = false,
     this.wasFlung = false,
+    this.isFlungRight = true,
   });
 
   /// Returns a copy of this [PanState] instance updated with the given values.
@@ -26,22 +30,25 @@ class PanState {
     bool? isPanning,
     double? distance,
     bool? wasFlung,
+    bool? isFlungRight,
   }) =>
       PanState(
         distance: distance ?? this.distance,
         isPanning: isPanning ?? this.isPanning,
         wasFlung: wasFlung ?? this.wasFlung,
+        isFlungRight: isFlungRight ?? this.isFlungRight,
       );
 
   @override
-  int get hashCode => hash3(distance, isPanning, wasFlung);
+  int get hashCode => hash4(distance, isPanning, wasFlung, isFlungRight);
 
   @override
   bool operator ==(Object other) {
     return other is PanState &&
         distance == other.distance &&
         isPanning == other.isPanning &&
-        wasFlung == other.wasFlung;
+        wasFlung == other.wasFlung &&
+        isFlungRight == other.isFlungRight;
   }
 
   @override
@@ -51,6 +58,7 @@ class PanState {
           "distance": distance,
           "isPanning": isPanning,
           "wasFlung": wasFlung,
+          "isFlungRight": isFlungRight,
         }.toString();
   }
 }
@@ -199,9 +207,16 @@ class CircularPanPhysics extends PanPhysics {
 
   /// {@macro flutter_fortune_wheel.PanPhysics.handlePanEnd}
   void handlePanEnd(DragEndDetails details) {
+    final velocity = details.velocity.pixelsPerSecond.dx;
+
     if (value.distance.abs() > 100 &&
         details.velocity.pixelsPerSecond.distance.abs() > 300) {
-      value = value.copyWith(isPanning: false, wasFlung: true);
+      bool isRight = velocity > 0;
+      value = value.copyWith(
+        isPanning: false,
+        wasFlung: true,
+        isFlungRight: isRight,
+      );
     } else {
       value = value.copyWith(isPanning: false);
     }
@@ -230,7 +245,7 @@ class DirectionalPanPhysics extends PanPhysics {
     required this.curve,
     required double direction,
     required this.duration,
-  })   : _direction = direction,
+  })  : _direction = direction,
         assert(curve != null),
         assert(direction != null),
         assert(duration != null);
@@ -270,7 +285,12 @@ class DirectionalPanPhysics extends PanPhysics {
   void handlePanEnd(DragEndDetails details) {
     final velocity = _getOffset(details.velocity.pixelsPerSecond);
     if (value.distance.abs() > 100 && velocity.abs() > 300) {
-      value = value.copyWith(isPanning: false, wasFlung: true);
+      bool isRight = velocity > 0;
+      value = value.copyWith(
+        isPanning: false,
+        wasFlung: true,
+        isFlungRight: isRight,
+      );
     } else {
       value = value.copyWith(isPanning: false);
     }
@@ -298,7 +318,7 @@ class PanAwareBuilder extends HookWidget {
   final HitTestBehavior? behavior;
 
   /// The callback to be called whenever a fling/swipe gesture is detected.
-  final VoidCallback? onFling;
+  final Function(bool)? onFling;
 
   PanAwareBuilder({
     required this.builder,
@@ -327,7 +347,7 @@ class PanAwareBuilder extends HookWidget {
 
     useValueChanged(panState.wasFlung, (bool oldValue, Future<void>? _) async {
       if (panState.wasFlung) {
-        await Future.microtask(() => onFling?.call());
+        await Future.microtask(() => onFling?.call(panState.isFlungRight));
       }
     });
 

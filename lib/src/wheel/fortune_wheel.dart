@@ -102,7 +102,7 @@ class FortuneWheel extends HookWidget implements FortuneWidget {
   final PanPhysics physics;
 
   /// {@macro flutter_fortune_wheel.FortuneWidget.onFling}
-  final VoidCallback? onFling;
+  final Function(bool)? onFling;
 
   double _getAngle(double progress) {
     return 2 * Math.pi * rotationCount * progress;
